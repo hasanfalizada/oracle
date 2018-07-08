@@ -1,0 +1,41 @@
+DECLARE
+    L_SQL                VARCHAR2 (500);
+    L_SQL_TUNE_TASK_ID   VARCHAR2 (100);
+BEGIN
+    L_SQL := 'select * from dual';
+    L_SQL_TUNE_TASK_ID :=
+        DBMS_SQLTUNE.CREATE_TUNING_TASK (
+            SQL_TEXT      => L_SQL,
+            USER_NAME     => 'BDSM',
+            SCOPE         => DBMS_SQLTUNE.SCOPE_COMPREHENSIVE,
+            TIME_LIMIT    => 60,
+            TASK_NAME     => 'bdsm_tuning_task',
+            DESCRIPTION   => 'bdsm tuning task description');
+    DBMS_OUTPUT.PUT_LINE ('l_sql_tune_task_id: ' || L_SQL_TUNE_TASK_ID);
+END;
+
+
+EXEC DBMS_SQLTUNE.EXECUTE_TUNING_TASK(TASK_NAME => 'bdsm_tuning_task');
+
+SELECT TASK_NAME, STATUS, EXECUTION_START
+  FROM DBA_ADVISOR_LOG
+ WHERE TASK_NAME = 'bdsm_tuning_task';
+
+SELECT DBMS_SQLTUNE.REPORT_TUNING_TASK ('bdsm_tuning_task')
+           AS RECOMMENDATIONS
+  FROM DUAL;
+
+DECLARE
+    V_TNAME                   VARCHAR2 (128) := 'my_task';
+    V_ENAME                   VARCHAR2 (128) := NULL;
+    V_REPORT                  CLOB := NULL;
+    V_SCRIPT                  CLOB := NULL;
+    V_IMPLEMENTATION_RESULT   CLOB;
+BEGIN
+    V_TNAME := DBMS_STATS.CREATE_ADVISOR_TASK (V_TNAME);
+    V_ENAME := DBMS_STATS.EXECUTE_ADVISOR_TASK (V_TNAME);
+    V_REPORT := DBMS_STATS.REPORT_ADVISOR_TASK (V_TNAME);
+    DBMS_OUTPUT.PUT_LINE (V_REPORT);
+    V_IMPLEMENTATION_RESULT := DBMS_STATS.IMPLEMENT_ADVISOR_TASK (V_TNAME);
+    DBMS_STATS.DROP_ADVISOR_TASK (V_TNAME);
+END;

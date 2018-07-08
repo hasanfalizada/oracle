@@ -1,0 +1,1 @@
+SELECT EXP (SUM (LN (A))) FROM T;

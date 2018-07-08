@@ -1,0 +1,19 @@
+  SELECT TS.NAME
+             TABLESPACE,
+         TRIM (SUBSTR (DF.NAME, 1, 100))
+             FILENAME,
+         DF.BYTES / 1048576000
+             ALLOCATED_GB,
+         ((DF.BYTES / 1048576000) - NVL (SUM (DFS.BYTES) / 1048576000, 0))
+             USED_GB,
+         NVL (SUM (DFS.BYTES) / 1048576000, 0)
+             FREE_SPACE_GB
+    FROM V$DATAFILE DF
+         JOIN DBA_FREE_SPACE DFS ON DF.FILE# = DFS.FILE_ID
+         JOIN V$TABLESPACE TS ON DF.TS# = TS.TS#
+GROUP BY TS.NAME,
+         DFS.FILE_ID,
+         DF.NAME,
+         DF.FILE#,
+         DF.BYTES
+ORDER BY FILENAME;

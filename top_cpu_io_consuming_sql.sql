@@ -1,0 +1,9 @@
+SELECT S.SQL_TEXT, DHS.*
+  FROM (  SELECT SQL_ID,
+                 SUM (CPU_TIME_DELTA),
+                 SUM (DISK_READS_DELTA),
+                 COUNT (*)
+            FROM DBA_HIST_SQLSTAT
+        GROUP BY SQL_ID
+        ORDER BY SUM (CPU_TIME_DELTA) DESC) DHS
+       LEFT JOIN V$SQL S ON DHS.SQL_ID = S.SQL_ID

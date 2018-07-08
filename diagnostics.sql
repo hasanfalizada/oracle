@@ -1,0 +1,61 @@
+SELECT * FROM V$DIAG_INFO;
+
+SELECT * FROM V$PARAMETER;
+
+SELECT * FROM V$PROCESS;
+
+SELECT * FROM DBA_TABLESPACES;
+
+SELECT * FROM V$SESSION;
+
+SELECT * FROM V$SESSION_WAIT;
+
+SELECT * FROM V$INSTANCE;
+
+SELECT * FROM V$DATABASE;
+
+SELECT * FROM V$VERSION;
+
+BEGIN
+    DBMS_OUTPUT.PUT_LINE (
+        DBMS_DB_VERSION.VERSION || '.' || DBMS_DB_VERSION.RELEASE);
+
+    CASE
+        WHEN DBMS_DB_VERSION.VER_LE_9_1
+        THEN
+            DBMS_OUTPUT.PUT_LINE ('ver_le_9_1');
+        WHEN DBMS_DB_VERSION.VER_LE_9_2
+        THEN
+            DBMS_OUTPUT.PUT_LINE ('ver_le_9_2');
+        WHEN DBMS_DB_VERSION.VER_LE_9
+        THEN
+            DBMS_OUTPUT.PUT_LINE ('ver_le_9');
+        WHEN DBMS_DB_VERSION.VER_LE_10_1
+        THEN
+            DBMS_OUTPUT.PUT_LINE ('ver_le_10_1');
+        WHEN DBMS_DB_VERSION.VER_LE_10_2
+        THEN
+            DBMS_OUTPUT.PUT_LINE ('ver_le_10_2');
+        WHEN DBMS_DB_VERSION.VER_LE_10
+        THEN
+            DBMS_OUTPUT.PUT_LINE ('ver_le_10');
+        WHEN DBMS_DB_VERSION.VER_LE_11_1
+        THEN
+            DBMS_OUTPUT.PUT_LINE ('ver_le_11_1');
+        WHEN DBMS_DB_VERSION.VER_LE_11_2
+        THEN
+            DBMS_OUTPUT.PUT_LINE ('ver_le_11_2');
+        WHEN DBMS_DB_VERSION.VER_LE_11
+        THEN
+            DBMS_OUTPUT.PUT_LINE ('ver_le_11');
+        WHEN DBMS_DB_VERSION.VER_LE_12_1
+        THEN
+            DBMS_OUTPUT.PUT_LINE ('ver_le_12_1');
+        WHEN DBMS_DB_VERSION.VER_LE_12_2
+        THEN
+            DBMS_OUTPUT.PUT_LINE ('ver_le_12_2');
+        WHEN DBMS_DB_VERSION.VER_LE_12
+        THEN
+            DBMS_OUTPUT.PUT_LINE ('ver_le_12');
+    END CASE;
+END DBMS_DB_VERSION;

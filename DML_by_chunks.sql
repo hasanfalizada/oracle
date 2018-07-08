@@ -1,0 +1,61 @@
+DECLARE
+    CURSOR CUR IS
+        SELECT ROWID, A.*
+          FROM YOUR_SALARY_TABLE A;
+
+    TYPE CUR_TYPE IS TABLE OF CUR%ROWTYPE
+        INDEX BY PLS_INTEGER;
+
+    L_CUR   CUR_TYPE;
+
+    LIM     NUMBER := 100000;                             -- Update chunk size
+BEGIN
+    OPEN CUR;
+
+    LOOP
+        FETCH CUR BULK COLLECT INTO L_CUR LIMIT LIM;
+
+        FOR INDX IN 1 .. L_CUR.COUNT
+        LOOP
+            UPDATE YOUR_SALARY_TABLE S
+               SET S.SALARY_COLUMN = S.SALARY_COLUMN * 2   -- Multiplying here
+             WHERE ROWID = L_CUR (INDX).ROWID;
+        END LOOP;
+
+        COMMIT;
+
+        EXIT WHEN L_CUR.COUNT < LIM;
+    END LOOP;
+
+    CLOSE CUR;
+END;
+
+DECLARE
+    TYPE CLIENT IS TABLE OF CRD_PERSON%ROWTYPE;
+
+    CLIENT_T   CLIENT;
+
+    CURSOR CUR IS
+             SELECT *
+               FROM CRD_PERSON
+              WHERE RESIDENTSTATE IS NULL
+        FETCH FIRST 100000 ROWS ONLY;
+BEGIN
+    FOR I IN 1 .. 14
+    LOOP
+        OPEN CUR;
+
+        FETCH CUR BULK COLLECT INTO CLIENT_T;
+
+        FORALL I IN CLIENT_T.FIRST .. CLIENT_T.LAST
+            UPDATE CRD_PERSON T
+               SET T.RESIDENTSTATE = 'BAKU'
+             WHERE T.FIID = CLIENT_T (I).FIID AND T.ID = CLIENT_T (I).ID;
+
+        COMMIT;
+
+        CLOSE CUR;
+
+        DBMS_APPLICATION_INFO.SET_CLIENT_INFO (I);
+    END LOOP;
+END;
