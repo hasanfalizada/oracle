@@ -27,3 +27,7 @@ SELECT REGEXP_SUBSTR ('VID=8;',
                       'i',
                       2)
   FROM DUAL;
+
+SELECT 'true'
+  FROM DUAL
+ WHERE REGEXP_LIKE ('Həsən', '([[:alpha:]]$)'); -- Only letters
