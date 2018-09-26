@@ -36,3 +36,7 @@ SELECT 'true'
   FROM DUAL
  WHERE REGEXP_LIKE ('ha@hasanalizada.net',
                     '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$'); -- Correct e-mail
+
+SELECT 'TRUE'
+  FROM DUAL
+ WHERE REGEXP_LIKE ('Həəsn Əlizadə', '^[A-Za-z0-9 \-\(\)\\\?\/]*$');  -- Only english characters
