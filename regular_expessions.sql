@@ -40,3 +40,5 @@ SELECT 'true'
 SELECT 'TRUE'
   FROM DUAL
  WHERE REGEXP_LIKE ('Həəsn Əlizadə', '^[A-Za-z0-9 \-\(\)\\\?\/]*$');  -- Only english characters
+
+ SELECT LENGTH (REGEXP_REPLACE ('12345vvv6a', '[^0-9]', '')) FROM DUAL; -- Extracting only digits
