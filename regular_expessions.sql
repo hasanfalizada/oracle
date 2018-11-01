@@ -42,3 +42,7 @@ SELECT 'TRUE'
  WHERE REGEXP_LIKE ('Həəsn Əlizadə', '^[A-Za-z0-9 \-\(\)\\\?\/]*$');  -- Only english characters
 
  SELECT LENGTH (REGEXP_REPLACE ('12345vvv6a', '[^0-9]', '')) FROM DUAL; -- Extracting only digits
+
+ SELECT 'true'
+  FROM DUAL
+ WHERE REGEXP_LIKE ('AZE12345678', '^[[:alpha:]+]{2,3}[[:digit:]+]{5,8}$') -- Passport serial number check
