@@ -46,3 +46,10 @@ SELECT 'TRUE'
  SELECT 'true'
   FROM DUAL
  WHERE REGEXP_LIKE ('AZE12345678', '^[[:alpha:]+]{2,3}[[:digit:]+]{5,8}$') -- Passport serial number check
+
+ SELECT REGEXP_REPLACE (
+          'asdas asdas asdas 1212 asdasdas         af    afaf  a f              asdf afaf  afaff      ',
+          '[[:space:]]*',
+          '')
+          tr
+  FROM DUAL; -- Full space trimming
