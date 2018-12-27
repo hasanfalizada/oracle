@@ -48,3 +48,47 @@ BEGIN
         END;
     END LOOP;
 END;
+
+
+SELECT x.*
+  FROM (SELECT Xmltype (
+                  '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soap:Body>
+      <XXX xmlns="http://tempuri.org/">
+         <XXX>
+            <Response xmlns="">
+               <header>
+                  <resError>
+                     <Code/>
+                     <Message/>
+                  </resError>
+                  <Success>true</Success>
+                  <MSGID>123fgsadh</MSGID>
+               </header>
+               <Body>
+                  <Blocks>
+                     <Block>
+                        <BlockNo>AB57535</BlockNo>
+                        <Amount>100</Amount>
+                        <ExpireDate>19-12-2018</ExpireDate>
+                        <MakerId>XXX</MakerId>
+                     </Block>
+                  </Blocks>
+                  <ErrorMessage/>
+                  <ErrorCode/>
+                  <SuccessMessage/>
+                  <SuccessCode/>
+                  <WarningMessage/>
+                  <WarningCode/>
+                  <IsSucess>True</IsSucess>
+               </Body>
+            </Response>
+         </XXX>
+      </XXX>
+   </soap:Body>
+</soap:Envelope>'  )
+                  Xml
+          FROM DUAL) t,
+       XMLTABLE ('//Response/Body/Blocks/Block'
+                 PASSING t.Xml
+                 COLUMNS Result VARCHAR2 (50) PATH 'BlockNo') x;
