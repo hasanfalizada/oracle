@@ -53,3 +53,7 @@ SELECT 'TRUE'
           '')
           tr
   FROM DUAL; -- Full space trimming
+
+SELECT 'true'
+  FROM DUAL
+WHERE REGEXP_LIKE ('123567', '^[[:digit:]+]{6}$');  -- Exactly 6 digits
