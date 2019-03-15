@@ -57,3 +57,25 @@ SELECT 'TRUE'
 SELECT 'true'
   FROM DUAL
 WHERE REGEXP_LIKE ('123567', '^[[:digit:]+]{6}$');  -- Exactly 6 digits
+
+SELECT REGEXP_SUBSTR (pair,
+                      '[^:]+',
+                      1,
+                      1)
+          key,
+       REGEXP_SUBSTR (pair,
+                      '[^:]+',
+                      1,
+                      2)
+          VALUE
+  FROM (    SELECT REGEXP_SUBSTR ('key1:value1,key2:value2',
+                                  '[^,]+',
+                                  1,
+                                  LEVEL)
+                      pair
+              FROM DUAL
+        CONNECT BY REGEXP_SUBSTR ('key1:value1,key2:value2',
+                                  '[^,]+',
+                                  1,
+                                  LEVEL)
+                      IS NOT NULL); -- Parsing map structure
