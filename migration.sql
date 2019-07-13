@@ -1,0 +1,20 @@
+-- 1. Defining scehmas to migrate.
+-- 2. New DB TNS.
+-- 3. Objects:
+--      - Tables.
+--      - LOBs.
+--      - Scheduler jobs.
+--      - Constraints.
+--      - Sequences.
+--      - Indexes.
+--      - Views.
+--      - Procedures.
+--      - Packages.
+--      - Object types.
+--      - Collection types.
+--      - Contexts.
+--      - DB Links.
+--      - etc.
+-- 4. Stopping all scheduler jobs.
+-- 5. Checking loopback DB links if any.
+-- 6. Starting all scheduler jobs.
