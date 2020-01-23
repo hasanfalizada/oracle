@@ -79,3 +79,12 @@ SELECT REGEXP_SUBSTR (pair,
                                   1,
                                   LEVEL)
                       IS NOT NULL); -- Parsing map structure
+
+
+SELECT REGEXP_SUBSTR ('Hasan Alizada@',
+                      '([^ ]+)\@',
+                      1,
+                      1,
+                      NULL,
+                      1)
+  FROM DUAL; -- Between two special characters
